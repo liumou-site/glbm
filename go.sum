@@ -1,0 +1,16 @@
+gitee.com/liumou_site/gbm v1.0.5 h1:bWoIjEc5WHBbBfGjyOyBQ31nlEyb8HJxYMYxw5hO3Dk=
+gitee.com/liumou_site/gbm v1.0.5/go.mod h1:3f8gY576l8DAmYpoDAnL4fWLtD+ExjJJWVLHtjmTWKo=
+gitee.com/liumou_site/gcs v1.7.8 h1:ltk1gKVBt6MDjkxVBa0k5oWsfh0Aub2m3k9XKQu8A94=
+gitee.com/liumou_site/gcs v1.7.8/go.mod h1:O/5sGBxPZDVCnFsOmHpsRQxqvWf/j+Gh3G76/XWJemE=
+gitee.com/liumou_site/gf v1.2.10 h1:TgpLAMM681R3XfbAMuNrl1680FOUGS28a2yPmOw3SDc=
+gitee.com/liumou_site/gf v1.2.10/go.mod h1:5PGu27dXhDbYI1oMcS8HRlXMbMmnSE5hg3etQ28/KUQ=
+gitee.com/liumou_site/logger v1.2.0 h1:9rVmjGeCqK3YZFRElDVTEyfrZpLciGe/9lA4P47YMRM=
+gitee.com/liumou_site/logger v1.2.0/go.mod h1:a/TU4/gqwD1XZ4wXu0CI15ASxHrVeBaxsQZ9rz3RrRs=
+github.com/frankban/quicktest v1.14.3 h1:FJKSZTDHjyhriyC81FLQ0LY93eSai0ZyR/ZIkd3ZUKE=
+github.com/google/go-cmp v0.5.7 h1:81/ik6ipDQS2aGcBfIN5dHDB36BwrStyeAQquSYCV4o=
+github.com/kr/pretty v0.3.0 h1:WgNl7dwNpEZ6jJ9k1snq4pZsg7DOEN8hP9Xw0Tsjwk0=
+github.com/kr/text v0.2.0 h1:5Nx0Ya0ZqY2ygV366QzturHI13Jq95ApcVaJBhpS+AY=
+github.com/rogpeppe/go-internal v1.6.1 h1:/FiVV8dS/e+YqF2JvO3yXRFbBLTIuSDkuC7aBOAvL+k=
+github.com/spf13/cast v1.5.0 h1:rj3WzYc11XZaIZMPKmwP96zkFEnnAmV8s6XbB2aY32w=
+github.com/spf13/cast v1.5.0/go.mod h1:SpXXQ5YoyJw6s3/6cMTQuxvgRl3PCJiyaX9p6b155UU=
+golang.org/x/xerrors v0.0.0-20220907171357-04be3eba64a2 h1:H2TDz8ibqkAF6YGhCdN3jS9O0/s90v0rJh3X/OLHEUk=
