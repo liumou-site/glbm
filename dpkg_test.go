@@ -1,6 +1,7 @@
 package glbm
 
 import (
+	"fmt"
 	"testing"
 
 	"gitee.com/liumou_site/logger"
@@ -38,7 +39,7 @@ func TestCheckIed(t *testing.T) {
 }
 
 func TestUninstall(t *testing.T) {
-	dpkg := NewDpkg("1", true)
+	dpkg := NewDpkg("Liumou17?", true)
 	dpkg.Uninstall("vsftpd")
 	if dpkg.Result {
 		logger.Info("卸载 成功")
@@ -50,5 +51,21 @@ func TestUninstall(t *testing.T) {
 		logger.Info("卸载 成功")
 	} else {
 		logger.Emer("卸载 失败")
+	}
+}
+
+func TestApiDpkg_GetPackageStatus(t *testing.T) {
+	dpkg := NewDpkg("1", false)
+	info := dpkg.GetPackageStatus("docker.io")
+	fmt.Println(info)
+}
+
+func TestApiDpkg_ConfigureAll(t *testing.T) {
+	dpkg := NewDpkg("Liumou17?", false)
+	dpkg.ConfigureAll()
+	if dpkg.Err == nil {
+		logger.Info("配置成功")
+	} else {
+		logger.Error("配置失败")
 	}
 }

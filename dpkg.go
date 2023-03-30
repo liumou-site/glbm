@@ -51,7 +51,7 @@ func (api *ApiDpkg) Uninstall(Package string) {
 
 // GetPackageStatus 使用 Dpkg查询包状态, 通过res返回字典,通过status返回查询状态,字典key(status/Name/version)
 func (api *ApiDpkg) GetPackageStatus(pacPackage string) (m map[string]string) {
-	cmd := fmt.Sprintf("dpkg -l | grep %s |  awk '{print $1,$2,$3}'", pacPackage)
+	cmd := fmt.Sprintf("dpkg -l | grep %s | sed -n 1p | awk '{print $1,$2,$3}'", pacPackage)
 	api.Sudo.RunScript(cmd)
 	m = map[string]string{
 		"status":  "Query failed",
@@ -62,9 +62,14 @@ func (api *ApiDpkg) GetPackageStatus(pacPackage string) (m map[string]string) {
 	if api.Err == nil {
 		strSp := strings.Split(api.Sudo.Strings, " ")
 		strSp = gbm.SliceRemoveNull(strSp)
+		if len(strSp) < 3 {
+			return nil
+		}
+		fmt.Println(len(strSp))
 		_name := fmt.Sprintf(strSp[1])
 		_status := fmt.Sprintf(strSp[0])
 		_ver := fmt.Sprintf(strSp[2])
+		_ver = strings.Fields(_ver)[0]
 		// 定义一个字典用于存储数据
 		m = map[string]string{
 			"status":  _status,
@@ -124,39 +129,26 @@ func (api *ApiDpkg) CheckVersion(pac string, version string) (status_ bool, ver_
 }
 
 // CheckPacKey 使用两个关键词查询本地是否已安装某个软件包并返回最终包名
-func (api *ApiDpkg) CheckPacKey(pac1, pac2 string) (bool, string) {
-	var result bool
-	cmd := fmt.Sprintf("dpkg -l | grep %s | grep %s | awk '{print $2}' | sed -n 1p ", pac1, pac2)
-	api.Sudo.RunScript(cmd) // 判断是否存在
-	ou := strings.Split(api.Sudo.Strings, "\n")
-	ou = gbm.SliceRemoveNull(ou)
-	api.Sudo.Strings = ou[0]
-	if len(api.Sudo.Strings) >= 2 {
+func (api *ApiDpkg) CheckPacKey(pac1, pac2 string) (result bool, pac string) {
+	api.Sudo.RunShell("dpkg -l") // 判断是否存在
+	api.Sudo.Grep(pac1).Grep(pac2).Line(1)
+	sp := strings.Fields(api.Sudo.Strings)
+	if len(sp) >= 5 {
 		result = true
+		pac = sp[1]
 	} else {
 		result = false
 	}
-	if api.Sudo.Err != nil {
-		result = false
-	}
-	if !result {
-		if api.Debug {
-			logs.Debug(api.Sudo.Strings)
-		}
-	}
-	if api.Sudo.Strings == "0" {
-		result = false
-	}
-	return result, api.Sudo.Strings
+	return result, pac
 }
 
 // ConfigureAll 使用 Dpkg --configure -a继续配置
-func (api *ApiDpkg) ConfigureAll() bool {
-	api.Sudo.RunShell("dpkg --configure -a")
-	if api.Sudo.Err == nil && api.Info {
+func (api *ApiDpkg) ConfigureAll() {
+	api.Sudo.RunSudo("dpkg --configure -a")
+	if api.Sudo.Err == nil {
 		logs.Info("Configure succeeded")
 	} else {
 		logs.Error("Configure Failed")
 	}
-	return api.Sudo.Err == nil
+	api.Err = api.Sudo.Err
 }
