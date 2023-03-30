@@ -58,7 +58,7 @@ func TestApiNmcli_GetEthInfo(t *testing.T) {
 		logger.Error("获取失败")
 		fmt.Println(err.Error())
 	}
-	res, err = n.GetEthInfo("enp125s0")
+	res, err = n.GetEthInfo("wlan0")
 	if err == nil {
 		logger.Info("获取成功")
 		fmt.Println(res)
@@ -67,14 +67,3 @@ func TestApiNmcli_GetEthInfo(t *testing.T) {
 		fmt.Println(err.Error())
 	}
 }
-
-//// 获取连接信息
-//func TestDefaultGw(t *testing.T) {
-//	n := NewNmcli()
-//	res := n.GetDefaultGw()
-//	if res {
-//		logger.Info("获取成功")
-//	} else {
-//		logger.Error("获取失败")
-//	}
-//}

@@ -61,7 +61,7 @@ func (n *ApiNmcli) GetAllEthInfo() ([]ApiEth, error) {
 		}
 		addrList, err = byName.Addrs()
 		if err != nil {
-			fmt.Println(err)
+			logs.Error(err.Error())
 			return EthInfo, err
 		}
 		for _, Addr := range addrList {
@@ -128,7 +128,7 @@ func (n *ApiNmcli) GetEthInfo(eth string) (EthInfo, error) {
 			if n.cmd.Err == nil {
 				ds := strings.Split(n.cmd.Strings, "\n")
 				if len(ds) == 0 {
-					logs.Warn("DNS信息获取失败")
+					logger.Warn("DNS第一次获取失败")
 				} else {
 					for _, v := range ds {
 						ipCut := strings.Split(v, ":") // 通过冒号截取数据
@@ -137,8 +137,7 @@ func (n *ApiNmcli) GetEthInfo(eth string) (EthInfo, error) {
 							ip := ipCut[1]
 							IpAddr := net.ParseIP(ip)
 							if IpAddr != nil {
-								logs.Debug("添加DNS信息")
-								fmt.Println(IpAddr)
+								logs.Debug("添加DNS信息: ", IpAddr)
 								dnsList = append(dnsList, IpAddr)
 							}
 						}
@@ -147,6 +146,24 @@ func (n *ApiNmcli) GetEthInfo(eth string) (EthInfo, error) {
 			}
 			logger.Info("第: [ %d ]个网卡匹配成功", i)
 			gw, ge := n.GetEthGw(eth)
+			if dnsList == nil {
+				n.cmd.RunShell("grep nameserver /etc/resolv.conf")
+				if n.cmd.Err == nil {
+					dns := strings.Split(n.cmd.Strings, "\n")
+					if len(dns) >= 1 {
+						for _, v := range dns {
+							ips := strings.Split(v, " ")
+							if len(ips) == 2 {
+								ip := ips[1]
+								IpAddr := net.ParseIP(ip)
+								if IpAddr != nil {
+									dnsList = append(dnsList, IpAddr)
+								}
+							}
+						}
+					}
+				}
+			}
 			if ge == nil {
 				if dnsList != nil {
 					return EthInfo{IP: v.Ipv4, GW: gw, MASK: v.Mask, DNS: dnsList}, nil
