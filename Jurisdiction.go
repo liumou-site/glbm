@@ -12,6 +12,15 @@ import (
 
 // Developer UOS系统下检查是否开启开发者模式
 func Developer() bool {
+	info, err := GetOsInfo()
+	if err != nil {
+		logs.Error("无法获取当前系统类型")
+		return false
+	}
+	if info.Name != "uos" {
+		logs.Info("当前系统非UOS系统,无需检测开发者模式")
+		return true
+	}
 	gc := gcs.NewShell()
 	gc.Debug = true
 	fileList := list.New()

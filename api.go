@@ -43,6 +43,8 @@ type ApiNmcli struct {
 	cmd     gcs.ApiSudo // 设置实例
 	Err     error       // 错误信息
 }
+
+// EthInfo 网卡信息结构
 type EthInfo struct {
 	IP   net.IP   // IP地址
 	GW   net.IP   // 网关地址
@@ -60,6 +62,7 @@ type ApiEth struct {
 	Err   error  // 错误信息
 }
 
+// ApiConnection 网络连接管理结构
 type ApiConnection struct {
 	Name       string        // 连接名称(例如: dhcp)
 	Types      string        // 连接类型(bridge/wifi/ethernet)
@@ -76,6 +79,7 @@ type ApiConnection struct {
 	ConList    []string      // 连接列表
 }
 
+// ApiService 服务管理结构
 type ApiService struct {
 	Name     string       // 服务名称
 	Err      error        // 错误
@@ -84,6 +88,7 @@ type ApiService struct {
 	sudo     *gcs.ApiSudo // Sudo实例
 }
 
+// ApiFile 文件管理
 type ApiFile struct {
 	PathAbs    string         // 操作对象绝对路径
 	PathBase   string         // 操作对象基础文件名
@@ -101,8 +106,25 @@ type ApiFile struct {
 	fileMan    *gf.ApiFileMan // 文件管理
 }
 
+// ApiFileSudo 文件管理(超级权限)
 type ApiFileSudo struct {
 	Password string       // 密码
 	sudo     *gcs.ApiSudo // Sudo实例
 	ApiFile               // 继承文件结构
+}
+
+// OsInfo 系统信息结构
+type OsInfo struct {
+	Name     string // 系统名称
+	Version  string // 系统版本
+	CodeName string // 系统代号
+	Arch     string // 系统架构
+}
+
+// UserInfo 用户信息结构
+type UserInfo struct {
+	Name string // 用户名称
+	Home string // 用户主目录
+	UID  string // 用户UID
+	Arch string // 系统架构
 }
